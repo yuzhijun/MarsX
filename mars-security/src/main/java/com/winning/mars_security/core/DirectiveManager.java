@@ -8,6 +8,8 @@ import com.winning.mars_security.util.PermisionUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -29,9 +31,18 @@ public class DirectiveManager {
         return mInstance;
     }
     public void initMailWorker(){
-        PeriodicWorkRequest mailWork = new PeriodicWorkRequest.Builder(MailWorker.class,1,
-                TimeUnit.MINUTES).build();
-        WorkManager.getInstance().enqueue(mailWork);
+        Constraints jobConstraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+
+        PeriodicWorkRequest jobWorkManager =
+                new PeriodicWorkRequest.Builder(MailWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+                        TimeUnit.MILLISECONDS)
+                        .setConstraints(jobConstraints)
+                        .build();
+
+        WorkManager.getInstance().enqueue(jobWorkManager);
     }
 
 }
