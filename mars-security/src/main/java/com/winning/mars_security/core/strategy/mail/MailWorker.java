@@ -57,7 +57,6 @@ public class MailWorker extends Worker{
 
                 Message[] messages = folder.search(ft);// 获取所有未读邮件
                 for (Message message : messages){
-                    try {
                         MailUtils pmm = new MailUtils((MimeMessage) message);
                         pmm.getMailContent(message);
                         if (pmm.getFrom().equals(FORM_EMAIL)){
@@ -66,9 +65,6 @@ public class MailWorker extends Worker{
                                 action.doAction();
                             }
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }catch (Exception e){
