@@ -8,7 +8,6 @@ import com.winning.mars_security.core.ActionData;
 import com.winning.mars_security.core.module.BaseAction;
 import com.winning.mars_security.util.MailUtils;
 
-import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Flags;
@@ -46,8 +45,8 @@ public class MailWorker extends Worker{
             folder.open(Folder.READ_WRITE);
             // 得到收件箱文件夹信息，获取邮件列表
             Message[] messages = folder.getMessages();
+
             if (messages.length > 0) {
-                Map<String, Object> map;
                 MailUtils pmm = null;
                 for (int i = 0; i < messages.length; i++) {
                     pmm = new MailUtils((MimeMessage) messages[i]);
