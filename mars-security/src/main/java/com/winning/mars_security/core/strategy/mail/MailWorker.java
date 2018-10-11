@@ -25,9 +25,9 @@ public class MailWorker extends Worker{
     private static final String FORM_EMAIL = "\" 哥只是个传说 \"<827623353@qq.com>";
     @NonNull
     @Override
-    public WorkerResult doWork() {
+    public Result doWork() {
         getImapEmail();
-        return WorkerResult.SUCCESS;
+        return Worker.Result.SUCCESS;
     }
 
     private void getImapEmail() {

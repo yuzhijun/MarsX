@@ -31,19 +31,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':mars-compile')
     implementation project(':mars-annotation')
-    def work_version = "1.0.0-alpha01"
+    def work_version = "1.0.0-alpha09"
     implementation "android.arch.work:work-runtime:$work_version"
-    // use -ktx for Kotlin
     // optional - Firebase JobDispatcher support
     implementation "android.arch.work:work-firebase:$work_version"
-    // optional - Test helpers
-    androidTestImplementation "android.arch.work:work-testing:$work_version"
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
