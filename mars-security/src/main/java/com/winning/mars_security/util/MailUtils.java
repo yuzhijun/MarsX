@@ -145,15 +145,15 @@ public class MailUtils {
         if (part.isMimeType("text/plain") && !conname) {
             bodytext.append((String) part.getContent());
         } else if (part.isMimeType("text/html") && !conname) {
-            bodytext.append((String) part.getContent());
+//            bodytext.append((String) part.getContent());
         } else if (part.isMimeType("multipart/*")) {
-            Multipart multipart = (Multipart) part.getContent();
-            int counts = multipart.getCount();
-            for (int i = 0; i < counts; i++) {
-                getMailContent(multipart.getBodyPart(i));
-            }
+//            Multipart multipart = (Multipart) part.getContent();
+//            int counts = multipart.getCount();
+//            for (int i = 0; i < counts; i++) {
+//                getMailContent(multipart.getBodyPart(i));
+//            }
         } else if (part.isMimeType("message/rfc822")) {
-            getMailContent((Part) part.getContent());
+//            getMailContent((Part) part.getContent());
         } else {
         }
     }

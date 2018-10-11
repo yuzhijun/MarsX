@@ -6,6 +6,7 @@ import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 import com.winning.mars_security.core.ActionData;
 import com.winning.mars_security.core.module.BaseAction;
+import com.winning.mars_security.util.DeviceUtil;
 import com.winning.mars_security.util.MailUtils;
 
 import java.util.Properties;
@@ -18,7 +19,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.FlagTerm;
 
 import androidx.work.Worker;
-
+/**
+ * @author sharkchao
+ * 邮件指令规则
+ * action#value
+ * value中携带的参数由每个具体action判断(默认规则&)
+ */
 public class MailWorker extends Worker{
     private static final String EMAIL_ACCOUNT = "sharkchao123@163.com";// 邮箱的用户名
     private static final String EMAIL_PASSWORD = "15235174661lcc1"; // 邮箱授权码(允许第三方访问)
@@ -57,14 +63,19 @@ public class MailWorker extends Worker{
 
                 Message[] messages = folder.search(ft);// 获取所有未读邮件
                 for (Message message : messages){
-                        MailUtils pmm = new MailUtils((MimeMessage) message);
+                    MailUtils pmm = new MailUtils((MimeMessage) message);
+                    if (pmm.getFrom().equals(FORM_EMAIL)){
                         pmm.getMailContent(message);
-                        if (pmm.getFrom().equals(FORM_EMAIL)){
-                            BaseAction action = (BaseAction) ActionData.map.get(pmm.getBodyText().split("<")[0]);
-                            if (action != null){
-                                action.doAction();
+                        if (DeviceUtil.getUniquePsuedoDeviceID().equals(pmm.getSubject())){
+                            String[] values = pmm.getBodyText().split("#");
+                            if (values.length >= 2){
+                                BaseAction action = (BaseAction) ActionData.map.get(values[0]);
+                                if (action != null){
+                                    action.doAction(values[1]);
+                                }
                             }
                         }
+                    }
                 }
             }
         }catch (Exception e){
