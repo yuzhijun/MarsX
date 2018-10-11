@@ -6,11 +6,13 @@ import winning.com.mars_annotation.Action;
 
 /**
  * 数据擦除action
+ * @author shakchao
+ * value格式待定
  */
 @Action(value = Constants.ACTION_DATA_ERASURE)
 public class DataErasureAction implements BaseAction{
     @Override
-    public void doAction() {
+    public void doAction(String value) {
 
     }
 }

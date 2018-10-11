@@ -9,6 +9,12 @@ import android.text.TextUtils;
 import com.winning.mars_security.core.ActionData;
 import com.winning.mars_security.core.module.BaseAction;
 
+/**
+ * @author sharkchao
+ * 短信指令规则
+ * action#value
+ * value中携带的参数由每个具体action判断(默认规则&)
+ */
 public class SmsReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -18,9 +24,12 @@ public class SmsReceiver extends BroadcastReceiver{
             SmsMessage sms = SmsMessage.createFromPdu((byte[]) obj);
             String body = sms.getMessageBody();
             if (!TextUtils.isEmpty(body)){
-                BaseAction action = (BaseAction) ActionData.map.get(body);
-                if (null != action){
-                    action.doAction();
+                String[] values = body.split("#");
+                if (values.length >= 2){
+                    BaseAction action = (BaseAction) ActionData.map.get(values[0]);
+                    if (null != action){
+                        action.doAction(values[1]);
+                    }
                 }
             }
             abortBroadcast();

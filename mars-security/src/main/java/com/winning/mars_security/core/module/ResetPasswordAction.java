@@ -1,20 +1,25 @@
-package com.winning.mars_security.core.module.lockscreen;
-
-import android.os.Bundle;
+package com.winning.mars_security.core.module;
 
 import com.winning.mars_security.core.DirectiveManager;
-import com.winning.mars_security.core.module.BaseAction;
 import com.winning.mars_security.util.Constants;
 import com.winning.mars_security.util.PermisionUtils;
 
 import winning.com.mars_annotation.Action;
-
-@Action(value = Constants.ACTION_LOCK_SCREEN)
-public class ResetPasswordAction implements BaseAction<Bundle> {
+/**
+ * 重置密码
+ * @author sharkchao
+ * password
+ */
+@Action(value = Constants.ACTION_RESET_PASSWORD)
+public class ResetPasswordAction implements BaseAction{
     @Override
-    public void doAction(Bundle bundle) {
-        if (PermisionUtils.verifyLockScreenPermissions(DirectiveManager.mContext)){
-            PermisionUtils.LockScreenNow();
+    public void doAction(String value) {
+        if (PermisionUtils.verifyDeviceAdminPermissions(DirectiveManager.getContext())){
+            if (value.length() >= 6){
+                //使用自定义密码规则
+                PermisionUtils.resetPassword(value);
+                PermisionUtils.LockScreenNow();
+            }
         }
     }
 }

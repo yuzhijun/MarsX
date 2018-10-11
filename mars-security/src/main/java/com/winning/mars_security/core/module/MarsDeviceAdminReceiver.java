@@ -1,6 +1,4 @@
-package com.winning.mars_security.core.module.lockscreen;
+package com.winning.mars_security.core.module;
 
-import android.app.admin.DeviceAdminReceiver;
-
-public class LockScreenReceiver extends DeviceAdminReceiver {
+public class MarsDeviceAdminReceiver extends android.app.admin.DeviceAdminReceiver {
 }

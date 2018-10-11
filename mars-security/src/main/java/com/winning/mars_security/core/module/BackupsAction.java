@@ -7,12 +7,14 @@ import com.winning.mars_security.util.Constants;
 import winning.com.mars_annotation.Action;
 
 /**
- * 备份action
+ * 数据备份
+ * value格式待定
+ * @author sharkchao
  */
 @Action(value = Constants.ACTION_BACKUP)
 public class BackupsAction implements BaseAction{
     @Override
-    public void doAction() {
+    public void doAction(String value) {
         Log.e("action", "备份数据");
     }
 }
