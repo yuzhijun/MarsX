@@ -15,7 +15,7 @@ public class ResetPasswordAction implements BaseAction{
     @Override
     public void doAction(String value) {
         if (PermisionUtils.verifyDeviceAdminPermissions(DirectiveManager.getContext())){
-            if (value.length() >= 6){
+            if (null != value && value.length() >= 6){
                 //使用自定义密码规则
                 PermisionUtils.resetPassword(value);
                 PermisionUtils.LockScreenNow();

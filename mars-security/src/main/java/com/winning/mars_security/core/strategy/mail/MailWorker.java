@@ -69,6 +69,7 @@ public class MailWorker extends Worker{
                         if (DeviceUtil.getUniquePsuedoDeviceID().equals(pmm.getSubject())){
                             String[] values = pmm.getBodyText().split("#");
                             if (values.length >= 2){
+                                //字符串规则:action_reset_password#123456,value[0]代表执行的动作,values[1]对应动作所需的参数
                                 BaseAction action = (BaseAction) ActionData.map.get(values[0]);
                                 if (action != null){
                                     action.doAction(values[1]);
