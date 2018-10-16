@@ -34,7 +34,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation project(':mars-compile')
     implementation project(':mars-annotation')
-    def work_version = "1.0.0-alpha09"
+    def work_version = "1.0.0-alpha10"
     implementation "android.arch.work:work-runtime:$work_version"
     // optional - Firebase JobDispatcher support
     implementation "android.arch.work:work-firebase:$work_version"

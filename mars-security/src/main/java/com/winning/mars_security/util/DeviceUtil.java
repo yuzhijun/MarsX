@@ -1,21 +1,12 @@
 package com.winning.mars_security.util;
 
-import android.Manifest;
 import android.annotation.TargetApi;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,38 +57,6 @@ public class DeviceUtil {
         return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 
-
-    public static String getMyUUID(AppCompatActivity context) {
-        String uniqueId = null;
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUESTCODE_PERMISSION_READ_PHONE_STATE);
-        } else {
-
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-            String tmDevice, tmSerial, tmPhone, androidId;
-
-            tmDevice = "" + tm.getDeviceId();
-
-            tmSerial = "" + tm.getSimSerialNumber();
-
-            androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
-            UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
-
-            uniqueId = deviceUuid.toString();
-
-//            Log.i("debug", "uuid=" + uniqueId);
-
-            return uniqueId;
-
-        }
-
-        return uniqueId;
-    }
-
-
     public static Boolean notHasLightSensorManager(Context context) {
         SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         Sensor sensor8 = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -106,31 +65,6 @@ public class DeviceUtil {
         } else {
             return false;
         }
-    }
-
-    public static boolean notHasBlueTooth(AppCompatActivity context) {
-
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-
-
-            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.BLUETOOTH}, REQUESTCODE_PERMISSION_BLUETOOTH);
-        } else {
-
-            BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
-            if (ba == null) {
-                return true;
-            } else {
-                // Bluetooth is available get name, else is simulator
-                String name = ba.getName();
-                if (TextUtils.isEmpty(name)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return false;
     }
 
     public static boolean isFeatures() {
