@@ -2,7 +2,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-annotations:28.0.0-rc01@jar'
+    implementation 'com.android.support:support-annotations:28.0.0@jar'
 }
 
 sourceCompatibility = "1.7"
