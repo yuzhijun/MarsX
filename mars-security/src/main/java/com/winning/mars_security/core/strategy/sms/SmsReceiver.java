@@ -7,7 +7,9 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 
 import com.winning.mars_security.core.ActionData;
+import com.winning.mars_security.core.DirectiveManager;
 import com.winning.mars_security.core.module.BaseAction;
+import com.winning.mars_security.util.Constants;
 
 /**
  * @author sharkchao
@@ -26,13 +28,19 @@ public class SmsReceiver extends BroadcastReceiver{
             if (!TextUtils.isEmpty(body)){
                 String[] values = body.split("#");
                 if (values.length >= 2){
-                    BaseAction action = (BaseAction) ActionData.map.get(values[0]);
-                    if (null != action){
-                        action.doAction(values[1]);
+                    String[] innerValues = values[1].split("%");
+                    if (innerValues.length >= 2 && (DirectiveManager.getAppkey().equals(innerValues[0]) || Constants.APP_ALL.equals(innerValues[0]))){
+                        BaseAction action = (BaseAction) ActionData.map.get(values[0]);
+                        if (null != action){
+                            action.doAction(innerValues[1]);
+                        }
+
+                        if (DirectiveManager.getAppkey().equals(innerValues[0])){
+                            abortBroadcast();
+                        }
                     }
                 }
             }
-            abortBroadcast();
         }
     }
 }

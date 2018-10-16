@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 import com.winning.mars_security.core.ActionData;
+import com.winning.mars_security.core.DirectiveManager;
 import com.winning.mars_security.core.module.BaseAction;
+import com.winning.mars_security.util.Constants;
 import com.winning.mars_security.util.DeviceUtil;
 import com.winning.mars_security.util.MailUtils;
 
@@ -69,9 +71,13 @@ public class MailWorker extends Worker{
                         if (DeviceUtil.getUniquePsuedoDeviceID().equals(pmm.getSubject())){
                             String[] values = pmm.getBodyText().split("#");
                             if (values.length >= 2){
-                                BaseAction action = (BaseAction) ActionData.map.get(values[0]);
-                                if (action != null){
-                                    action.doAction(values[1]);
+                                String[] innerValues = values[1].split("%");
+                                if (innerValues.length >= 2 && (DirectiveManager.getAppkey().equals(innerValues[0]) || Constants.APP_ALL.equals(innerValues[0]))) {
+
+                                    BaseAction action = (BaseAction) ActionData.map.get(values[0]);
+                                    if (action != null){
+                                        action.doAction(innerValues[1]);
+                                    }
                                 }
                             }
                         }
